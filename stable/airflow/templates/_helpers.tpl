@@ -37,8 +37,8 @@ Create a default fully qualified postgresql name or use the `postgresHost` value
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "airflow.postgresql.fullname" -}}
-{{- if .Values.postgresql.postgresHost }}
-    {{- .Values.postgresql.postgresHost -}}
+{{- if .Values.postgresql.postgresqlHost }}
+    {{- .Values.postgresql.postgresqlHost -}}
 {{- else }}
     {{- $name := default "postgresql" .Values.postgresql.nameOverride -}}
     {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
@@ -98,7 +98,7 @@ The key names for postgres and redis are fixed, which is consistent with the sub
 */}}
 {{- define "airflow.mapenvsecrets" }}
   - name: POSTGRES_USER
-    value: {{ default "postgres" .Values.postgresql.postgresUser | quote }}
+    value: {{ default "postgres" .Values.postgresql.postgresqlUser | quote }}
   {{- if or .Values.postgresql.existingSecret .Values.postgresql.enabled }}
   - name: POSTGRES_PASSWORD
     valueFrom:
